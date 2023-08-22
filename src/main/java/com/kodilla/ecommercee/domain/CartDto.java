@@ -11,7 +11,7 @@ import java.util.List;
 public class CartDto {
     
     private Long id;
-    private User user;
+    private int userId;
     private LocalDate dateCreated;
-    private List<Product> products;
+    private List<ProductDto> products;
 }

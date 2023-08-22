@@ -1,6 +1,8 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.*;
+import com.kodilla.ecommercee.domain.CartDto;
+import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.domain.ProductDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +16,12 @@ import java.util.List;
 public class CartController {
     
     @PostMapping()
-    public ResponseEntity<CartDto> createNewCart(@RequestParam Long userId) {
+    public ResponseEntity<CartDto> createNewCart(@RequestParam int userId) {
         
-        List<Product> products = new ArrayList<>();
-        products.add(new Product(1L, "test1", "test1", 1.0));
-        products.add(new Product(2L, "test2", "test2", 2.0));
-        User user = new User(userId, "test", "test", "test", false);
-        CartDto body = new CartDto(1L, user, LocalDate.now(), products);
+        List<ProductDto> products = new ArrayList<>();
+        products.add(new ProductDto(1L, "test1", "test1", 1.0));
+        products.add(new ProductDto(2L, "test2", "test2", 2.0));
+        CartDto body = new CartDto(1L, userId, LocalDate.now(), products);
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(body);
     }
@@ -39,10 +40,9 @@ public class CartController {
     public ResponseEntity<CartDto> addProductToCart(@PathVariable Long cartId,
                                                     @RequestParam Long productId) {
         
-        List<Product> products = new ArrayList<>();
-        products.add(new Product(productId, "test1", "test1", 1.0));
-        User user = new User(1L, "test", "test", "test", false);
-        CartDto body = new CartDto(cartId, user, LocalDate.now(), products);
+        List<ProductDto> products = new ArrayList<>();
+        products.add(new ProductDto(productId, "test1", "test1", 1.0));
+        CartDto body = new CartDto(cartId, 1, LocalDate.now(), products);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                              .body(body);
     }
@@ -58,11 +58,10 @@ public class CartController {
     @PostMapping("/{cartId}")
     public ResponseEntity<OrderDto> createOrderForCart(@PathVariable Long cartId) {
         
-        List<Product> products = new ArrayList<>();
-        products.add(new Product(1L, "test1", "test1", 1.0));
-        User user = new User(1L, "test", "test", "test", false);
-        Cart cart = new Cart(cartId, user, LocalDate.now(), products);
-        OrderDto body = new OrderDto(1L, cart.getUser(), LocalDate.now(), "created", cart.getProducts());
+        List<ProductDto> products = new ArrayList<>();
+        products.add(new ProductDto(1L, "test1", "test1", 1.0));
+        CartDto cart = new CartDto(cartId, 1, LocalDate.now(), products);
+        OrderDto body = new OrderDto(1L, 1, LocalDate.now(), "created", cart.getProducts());
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(body);
     }
