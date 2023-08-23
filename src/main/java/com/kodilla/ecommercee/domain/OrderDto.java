@@ -1,11 +1,8 @@
 package com.kodilla.ecommercee.domain;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
 import java.time.LocalDate;
 import java.util.List;
-
 @Getter
 @AllArgsConstructor
 public class OrderDto {
@@ -16,3 +13,7 @@ public class OrderDto {
     private String status;
     private List<ProductDto> products;
 }
+
+
+
+
