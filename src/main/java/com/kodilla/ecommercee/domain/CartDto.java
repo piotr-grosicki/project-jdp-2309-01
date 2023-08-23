@@ -8,11 +8,10 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class OrderDto {
-
+public class CartDto {
+    
     private Long id;
     private int userId;
-    private LocalDate orderDate;
-    private String status;
+    private LocalDate dateCreated;
     private List<ProductDto> products;
 }

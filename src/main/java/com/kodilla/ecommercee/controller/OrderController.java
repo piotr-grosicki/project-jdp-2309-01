@@ -2,6 +2,8 @@ package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.*;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +15,8 @@ public class OrderController {
     @GetMapping
     public List<OrderDto> getAllOrders() {
         List<OrderDto> orders = new ArrayList<>();
-        orders.add(new OrderDto(1L, null, new Date(), "In progress", new ArrayList<>()));
-        orders.add(new OrderDto(2L, null, new Date(), "Shipped", new ArrayList<>()));
+        orders.add(new OrderDto(1L, 1, LocalDate.ofYearDay(2023,12), "In progress", new ArrayList<>()));
+        orders.add(new OrderDto(2L, 2,LocalDate.ofYearDay(2021,242), "Shipped", new ArrayList<>()));
 
         return orders;
     }
@@ -38,9 +40,9 @@ public class OrderController {
     @GetMapping("/{id}")
     public OrderDto getOrderById(@PathVariable Long id) {
         if (id == 1)
-            return new OrderDto(1L, null, new Date(), "In progress", new ArrayList<>());
+            return new OrderDto(1L, 1, LocalDate.ofYearDay(2023,12), "In progress", new ArrayList<>());
         if (id == 2)
-            return new OrderDto(2L, null, new Date(), "Shipped", new ArrayList<>());
+            return new OrderDto(2L, 2, LocalDate.ofYearDay(2021,242), "Shipped", new ArrayList<>());
         else {
             return null;
         }
