@@ -21,13 +21,13 @@ public class Group {
     private Long id;
     private String name;
 
-    @OneToMany(
-            targetEntity = Product.class,
-            mappedBy = "group",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    @Builder.Default
-    private List<Product> listOfProducts = new ArrayList<>();
+//    @OneToMany(
+//            targetEntity = Product.class,
+//            mappedBy = "group",
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY
+//    )
+//    @Builder.Default
+//    private List<Product> listOfProducts = new ArrayList<>();
 
 }

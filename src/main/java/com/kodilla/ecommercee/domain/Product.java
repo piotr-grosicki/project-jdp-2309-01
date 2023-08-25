@@ -19,8 +19,4 @@ public class Product {
     private String description;
     private double price;
 
-   @ManyToOne
-   @JoinColumn(name="group_id")
-    private Group group;
-
 }
