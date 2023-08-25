@@ -8,10 +8,7 @@ import java.util.List;
 public interface GroupCrud extends CrudRepository<Group, Long> {
 
     List<Group> findAll();
-
     Group save(Group group);
-
     Group findById(long id);
-
     void deleteAll();
 }
