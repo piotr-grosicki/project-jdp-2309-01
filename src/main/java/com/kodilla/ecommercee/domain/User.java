@@ -23,26 +23,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column(name = "ID", unique = true)
     private Long id;
-
-    @Column(name = "EMAIL")
     private String email;
-
-    @Column(name = "USERNAME")
     private String username;
-
-    @Column(name = "PASSWORD")
     private String password;
-
-    @Column(name = "GENERATED_KEY")
     private String generatedKey;
-
-    @Column(name = "EXPIRATION_DATE")
     private Date expirationDate;
-
     @NotNull
-    @Column(name = "USER_STATUS")
     private boolean isBlocked;
 
     @OneToMany(
