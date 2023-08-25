@@ -32,13 +32,18 @@ public class User {
     @NotNull
     private boolean isBlocked;
 
+
+/*  To be uncommented when creating a Cart entity
+
     @OneToMany(
             targetEntity = Cart.class,
             mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<Cart> carts = new ArrayList<>();
+    private List<Cart> carts = new ArrayList<>();*/
+
+/*  To be uncommented when creating an Order entity
 
     @OneToMany(
             targetEntity = Order.class,
@@ -46,6 +51,6 @@ public class User {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();*/
 
 }
