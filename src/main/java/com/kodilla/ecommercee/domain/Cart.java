@@ -20,16 +20,16 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    Long id;
+    private Long id;
     
     @ManyToOne(targetEntity = User.class,
                cascade = CascadeType.ALL,
                fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    User user;
+    private User user;
     
     @NotNull
-    LocalDate created;
+    private LocalDate created;
     
     /*@ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -37,6 +37,6 @@ public class Cart {
             joinColumns = @JoinColumn(name = "CART_ID"),
             inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
     )
-    List<Product> products = new ArrayList<>();*/
+    private List<Product> products = new ArrayList<>();*/
     
 }
