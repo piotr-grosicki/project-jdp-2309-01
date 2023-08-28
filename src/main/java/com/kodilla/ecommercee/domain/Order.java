@@ -22,7 +22,6 @@ public class Order {
   private Long id;
 
   @ManyToOne
-  @Column(name ="userId")
   private User user;
 
   private Date orderDate;
