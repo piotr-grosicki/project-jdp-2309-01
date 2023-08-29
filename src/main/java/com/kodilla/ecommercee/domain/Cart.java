@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,12 +33,12 @@ public class Cart {
     @NotNull
     private LocalDate created;
     
-    /*@ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "JOIN_CART_PRODUCT",
             joinColumns = @JoinColumn(name = "CART_ID"),
             inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
     )
-    private List<Product> products = new ArrayList<>();*/
+    private List<Product> products = new ArrayList<>();
     
 }
