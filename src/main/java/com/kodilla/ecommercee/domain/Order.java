@@ -19,16 +19,16 @@ public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @NotNull
+  @Column(name = "ORDER_ID", unique = true)
   private Long id;
 
   @ManyToOne
+  @JoinColumn(name = "USER_ID")
   private User user;
 
   private Date orderDate;
 
   private String status;
-
-
 
   @ManyToMany(
           targetEntity =Product.class,

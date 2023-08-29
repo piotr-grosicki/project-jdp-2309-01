@@ -15,21 +15,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="`GROUPS`")
+@Table(name="PRODUCT_GROUPS")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    @Column(name = "GROUP_ID", unique = true)
     private Long id;
     private String name;
 
-//    @OneToMany(
-//            targetEntity = Product.class,
-//            mappedBy = "group",
-//            cascade = CascadeType.ALL,
-//            fetch = FetchType.LAZY
-//    )
-//    private List<Product> listOfProducts = new ArrayList<>();
+    @OneToMany(
+            targetEntity = Product.class,
+            mappedBy = "group",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Product> products = new ArrayList<>();
 
 }

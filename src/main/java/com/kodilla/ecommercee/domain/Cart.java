@@ -22,11 +22,10 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    @Column(name = "CART_ID", unique = true)
     private Long id;
     
-    @ManyToOne(targetEntity = User.class,
-               cascade = CascadeType.ALL,
-               fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
     
