@@ -29,12 +29,13 @@ public class Order {
   private String status;
 
 
- @ManyToMany(
+
+  @ManyToMany(
           targetEntity =Product.class,
           mappedBy = "orders",
           cascade = CascadeType.ALL,
           fetch = FetchType.LAZY
   )
-  private List<Product>orders = new ArrayList<>();
+  private List<Product> products = new ArrayList<>();
 }
 
