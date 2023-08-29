@@ -28,15 +28,13 @@ public class Order {
 
   private String status;
 
-  /*
-  Po zrobieniu Product Entity
-  @OneToMany(
+
+ @ManyToMany(
           targetEntity =Product.class,
-          mappedBy = "order",
+          mappedBy = "orders",
           cascade = CascadeType.ALL,
           fetch = FetchType.LAZY
   )
-  private List<Product> products = new ArrayList<>();
+  private List<Product>orders = new ArrayList<>();
 }
-   */
-}
+
