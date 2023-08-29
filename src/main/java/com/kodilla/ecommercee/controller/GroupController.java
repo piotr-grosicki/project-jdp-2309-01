@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.GroupDto;
+import com.kodilla.ecommercee.domain.ProductDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,14 +25,14 @@ public class GroupController {
     @GetMapping("/{id}")
     public GroupDto getGroup(@PathVariable Long id) {
         return new GroupDto(
-                1L,"Group by Id"
+                1L,"Group by Id", new ArrayList<ProductDto>()
         );
     }
 
     @PutMapping({"/{id}"})
     public GroupDto editGroup(@PathVariable Long id, @RequestBody GroupDto groupDto) {
         return new GroupDto(
-                1L, "Group edited"
+                1L, "Group edited", new ArrayList<ProductDto>()
         );
     }
 }
