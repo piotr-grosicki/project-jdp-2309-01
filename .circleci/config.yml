@@ -9,6 +9,11 @@ jobs:
       # specify the version you desire here
       - image: cimg/openjdk:17.0.7
 
+        environment:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/kodilla_project?serverTimezone=Europe/Warsaw&useSSL=False&allowPublicKeyRetrieval=true
+          SPRING_DATASOURCE_USERNAME: kodilla_user
+          SPRING_DATASOURCE_PASSWORD: kodilla_password
+
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -27,9 +32,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
       - run: gradle dependencies
 
@@ -37,6 +42,11 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      # Print environment variables
+      - run: echo $SPRING_DATASOURCE_URL
+      - run: echo $SPRING_DATASOURCE_USERNAME
+      - run: echo $SPRING_DATASOURCE_PASSWORD
 
       # run tests!
       - run: gradle build
