@@ -30,19 +30,19 @@ public class Product {
     @NotNull
     private double price;
 
-    /* @NotNull
+     @NotNull
      @ManyToOne
      @JoinColumn()
-     private Group group;*/
+     private Group group;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Cart> carts;
 
-    /* @ManyToMany(cascade = CascadeType.ALL)
+     @ManyToMany(cascade = CascadeType.ALL)
      @JoinTable(
              name = "JOIN_PRODUCT_ORDER",
              joinColumns = @JoinColumn(name = "PRODUCT_ID"),
              inverseJoinColumns = @JoinColumn(name = "ORDER_ID")
      )
-     private List<Order> orders;*/
+     private List<Order> orders;
 }

@@ -40,7 +40,6 @@ public class User {
     )
     private List<Cart> carts = new ArrayList<>();
 
-/*  To be uncommented when creating an Order entity
 
     @OneToMany(
             targetEntity = Order.class,
@@ -48,6 +47,6 @@ public class User {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<Order> orders = new ArrayList<>();*/
+    private List<Order> orders = new ArrayList<>();
     
 }
