@@ -43,16 +43,18 @@ jobs:
       - run: echo $SPRING_DATASOURCE_USERNAME
       - run: echo $SPRING_DATASOURCE_PASSWORD
 
-      # run tests!
-      - run: gradle build
-
-      # Build the Jekyll site and store artifacts
+      # run tests and save results
+      - run: gradle test
+        name: Run tests and save results
+        when: always
       - run:
-         name: Build the Jekyll site
-         command: bundle exec jekyll build --source jekyll --destination jekyll/_site/docs/
-      - store_artifacts:
-         path: jekyll/_site/docs/
-         destination: circleci-docs
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
 
     services:
       mysql:
