@@ -8,14 +8,6 @@ jobs:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:17.0.7
-    services:
-      - name: mysql
-        image: circleci/mysql:8.0.33  # lub inna odpowiednia wersja
-        environment:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: kodilla_project
-          MYSQL_USER: kodilla_user
-          MYSQL_PASSWORD: kodilla_password
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -61,3 +53,12 @@ jobs:
       - store_artifacts:
          path: jekyll/_site/docs/
          destination: circleci-docs
+
+    services:
+      mysql:
+        image: mysql:8.0.33
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: kodilla_project
+          MYSQL_USER: kodilla_user
+          MYSQL_PASSWORD: kodilla_password
