@@ -2,17 +2,20 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:17.0.7
-
+    services:
+      - name: mysql
+        image: circleci/mysql:8.0.33  # lub inna odpowiednia wersja
         environment:
-          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/kodilla_project?serverTimezone=Europe/Warsaw&useSSL=False&allowPublicKeyRetrieval=true
-          SPRING_DATASOURCE_USERNAME: kodilla_user
-          SPRING_DATASOURCE_PASSWORD: kodilla_password
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: kodilla_project
+          MYSQL_USER: kodilla_user
+          MYSQL_PASSWORD: kodilla_password
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -50,3 +53,11 @@ jobs:
 
       # run tests!
       - run: gradle build
+
+      # Build the Jekyll site and store artifacts
+      - run:
+         name: Build the Jekyll site
+         command: bundle exec jekyll build --source jekyll --destination jekyll/_site/docs/
+      - store_artifacts:
+         path: jekyll/_site/docs/
+         destination: circleci-docs
