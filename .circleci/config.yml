@@ -43,10 +43,10 @@ jobs:
       - run: echo $SPRING_DATASOURCE_USERNAME
       - run: echo $SPRING_DATASOURCE_PASSWORD
 
-      # run tests and save results
-      - run: gradle test
-        name: Run tests and save results
-        when: always
+      # run tests!
+      - run: gradle build
+
+      # Save test results
       - run:
           name: Save test results
           command: |
