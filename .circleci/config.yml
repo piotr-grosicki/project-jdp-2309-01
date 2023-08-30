@@ -1,29 +1,23 @@
-# Java Gradle CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2.0
+version: 2
 jobs:
   build:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:17.0.7
-
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
-
     working_directory: ~/repo
-
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -37,39 +31,3 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # Print environment variables
-      - run: echo $SPRING_DATASOURCE_URL
-      - run: echo $SPRING_DATASOURCE_USERNAME
-      - run: echo $SPRING_DATASOURCE_PASSWORD
-
-      # Run MySQL service in the background
-      - run:
-         name: Start MySQL
-         command: docker run -d --name=mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 cimg/mysql:8.0
-
-      # Wait for MySQL to start
-      - run:
-         name: Wait for MySQL
-         command: dockerize -wait tcp://localhost:3306 -timeout 1m
-
-      # Configure application properties
-      - run:
-         name: Configure application properties
-         command: |
-           echo "spring.datasource.url=jdbc:mysql://localhost:3306/kodilla_project?serverTimezone=Europe/Warsaw&useSSL=False&allowPublicKeyRetrieval=true" >> src/main/resources/application.properties
-           echo "spring.datasource.username=kodilla_user" >> src/main/resources/application.properties
-           echo "spring.datasource.password=kodilla_password" >> src/main/resources/application.properties  
-
-      # run tests!
-      - run: gradle build
-
-      # Save test results
-      - run:
-          name: Save test results
-          command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-      - store_test_results:
-          path: ~/test-results

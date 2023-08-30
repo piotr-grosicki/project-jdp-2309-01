@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.repository;
 
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,25 +26,33 @@ public class CartRepositoryTestSuite {
     @Autowired
     private UserRepository userRepository;
 
-    @Test
-    public void cartRepositoryCreateTestSuite() {
-        // Given
-        User user = new User();
-        user.setEmail("user@gmail.com");
-        user.setUsername("user");
-        user.setPassword("password");
-        user.setGeneratedKey("key");
-        user.setExpirationDate(Date.valueOf(LocalDate.now().plusDays(1)));
-        user.setBlocked(false);
+    private User user;
+    private Cart cart;
+
+    @BeforeEach
+    public void setUp() {
+        user = User.builder()
+                .email("user@gmail.com")
+                .username("user")
+                .password("password")
+                .generatedKey("key")
+                .expirationDate(Date.valueOf(LocalDate.now().plusDays(1)))
+                .isBlocked(false)
+                .build();
 
         userRepository.save(user);
 
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cart.setCreated(LocalDate.now().minusDays(1));
+        cart = Cart.builder()
+                .user(user)
+                .created(LocalDate.now().minusDays(1))
+                .build();
 
-        // When
         cartRepository.save(cart);
+    }
+
+    @Test
+    public void cartRepositoryCreateTestSuite() {
+        // When
         List<Cart> carts = (List<Cart>) cartRepository.findAll();
 
         // Then
@@ -50,23 +60,16 @@ public class CartRepositoryTestSuite {
     }
 
     @Test
-    public void testUserTableCreation() {
-        // Given
-        User user = new User();
-        user.setEmail("user@gmail.com");
-        user.setUsername("user");
-        user.setPassword("password");
-        user.setGeneratedKey("key");
-        user.setExpirationDate(Date.valueOf(LocalDate.now().plusDays(1)));
-        user.setBlocked(false);
-
+    public void cartRepositoryReadTestSuite() {
         // When
-        userRepository.save(user);
-        User savedUser = userRepository.findById(user.getId()).orElse(null);
+        Optional<Cart> retrievedCart = cartRepository.findById(cart.getId());
 
         // Then
-        assertNotNull(savedUser);
-        assertEquals("user@gmail.com", savedUser.getEmail());
+        assertTrue(retrievedCart.isPresent());
+        assertEquals(user, retrievedCart.get().getUser());
+        assertEquals(cart.getCreated(), retrievedCart.get().getCreated());
     }
+
+
 
 }

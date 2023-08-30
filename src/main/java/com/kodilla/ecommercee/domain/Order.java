@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ORDERS")
@@ -36,6 +36,8 @@ public class Order {
           cascade = CascadeType.ALL,
           fetch = FetchType.LAZY
   )
+  @Builder.Default
   private List<Product> products = new ArrayList<>();
+
 }
 
