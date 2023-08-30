@@ -8,6 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:17.0.7
+      - image: cimg/mysql:8.0.33
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -55,12 +56,3 @@ jobs:
           when: always
       - store_test_results:
           path: ~/test-results
-
-    services:
-      mysql:
-        image: mysql:8.0.33
-        environment:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: kodilla_project
-          MYSQL_USER: kodilla_user
-          MYSQL_PASSWORD: kodilla_password
