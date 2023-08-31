@@ -16,7 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "USERS")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
@@ -29,7 +29,7 @@ public class User {
     private Date expirationDate;
     @NotNull
     private boolean isBlocked;
-    
+
     @OneToMany(
             targetEntity = Cart.class,
             mappedBy = "user",
