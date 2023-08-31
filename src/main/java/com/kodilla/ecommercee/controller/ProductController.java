@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    Group testGroup = new Group(1L,"group1");
+    Group testGroup = new Group(1L,"group1", new ArrayList<>());
     List<Cart> testCartList = new ArrayList<>();
     List<Order> testOrderList = new ArrayList<>();
 

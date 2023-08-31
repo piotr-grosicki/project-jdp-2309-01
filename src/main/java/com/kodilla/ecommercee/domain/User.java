@@ -1,21 +1,18 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Builder
 @Entity
 @Table(name = "USERS")
 public class User {
@@ -23,6 +20,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    @Column(name = "USER_ID", unique = true)
     private Long id;
     private String email;
     private String username;
@@ -38,6 +36,7 @@ public class User {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
+    @Builder.Default
     private List<Cart> carts = new ArrayList<>();
 
 
@@ -47,6 +46,21 @@ public class User {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
+    @Builder.Default
     private List<Order> orders = new ArrayList<>();
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return isBlocked == user.isBlocked &&
+                Objects.equals(id, user.id) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(generatedKey, user.generatedKey) &&
+                Objects.equals(expirationDate, user.expirationDate);
+    }
+
 }
