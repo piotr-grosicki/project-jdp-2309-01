@@ -7,8 +7,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +24,7 @@ public class Cart {
     @Column(name = "CART_ID", unique = true)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
     
@@ -38,4 +40,25 @@ public class Cart {
     @Builder.Default
     private List<Product> products = new ArrayList<>();
     
+    @Override
+    public boolean equals(Object object) {
+        
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        
+        Cart cart = (Cart) object;
+        
+        if (!Objects.equals(id, cart.id)) return false;
+        if (!Objects.equals(user, cart.user)) return false;
+        return Objects.equals(created, cart.created);
+    }
+    
+    @Override
+    public int hashCode() {
+        
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (created != null ? created.hashCode() : 0);
+        return result;
+    }
 }

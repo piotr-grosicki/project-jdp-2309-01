@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class CartRepositoryTestSuite {
+@Transactional
+class CartRepositoryTestSuite {
 
     @Autowired
     private CartRepository cartRepository;
@@ -51,7 +53,7 @@ public class CartRepositoryTestSuite {
     }
 
     @Test
-    public void cartRepositoryCreateTestSuite() {
+    void cartRepositoryCreateTestSuite() {
         // When
         List<Cart> carts = (List<Cart>) cartRepository.findAll();
 
@@ -60,7 +62,7 @@ public class CartRepositoryTestSuite {
     }
 
     @Test
-    public void cartRepositoryReadTestSuite() {
+    void cartRepositoryReadTestSuite() {
         // When
         Optional<Cart> retrievedCart = cartRepository.findById(cart.getId());
 

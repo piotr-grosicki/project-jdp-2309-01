@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,6 +29,7 @@ public class Group {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
+    @Builder.Default
     private List<Product> products = new ArrayList<>();
 
 }
