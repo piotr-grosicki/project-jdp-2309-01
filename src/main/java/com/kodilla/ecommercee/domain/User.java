@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -63,4 +64,5 @@ public class User {
                 Objects.equals(expirationDate, user.expirationDate);
     }
 
+    //przydałoby się również dodać nadpisany hashCode, bo są one w kontrakcie ze sobą
 }

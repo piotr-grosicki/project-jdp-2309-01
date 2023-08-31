@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 
 @Getter
-@Builder
+@Setter@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ORDERS")

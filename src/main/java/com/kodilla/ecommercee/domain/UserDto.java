@@ -2,10 +2,11 @@ package com.kodilla.ecommercee.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
+@Setter
+@AllArgsConstructor
 public class UserDto {
     private int id;
     String email;

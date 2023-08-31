@@ -15,7 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class CartRepositoryTestSuite {
+class CartRepositoryTestSuite {
 
     @Autowired
     private CartRepository cartRepository;
@@ -51,7 +51,7 @@ public class CartRepositoryTestSuite {
     }
 
     @Test
-    public void cartRepositoryCreateTestSuite() {
+    void cartRepositoryCreateTestSuite() {
         // When
         List<Cart> carts = (List<Cart>) cartRepository.findAll();
 
@@ -60,7 +60,7 @@ public class CartRepositoryTestSuite {
     }
 
     @Test
-    public void cartRepositoryReadTestSuite() {
+    void cartRepositoryReadTestSuite() {
         // When
         Optional<Cart> retrievedCart = cartRepository.findById(cart.getId());
 
