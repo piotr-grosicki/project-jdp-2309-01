@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,14 +18,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GroupRepositoryTestSuite {
 
     @Autowired
-    GroupRepository groupRepository;
+    private GroupRepository groupRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
-    Product product1;
-    Product product2;
-    Group group;
+    private Product product1;
+    private Product product2;
+    private Product product3;
+    private Product product4;
+    private Product product5;
+    private Group group;
+    private Group group2;
 
     @BeforeEach
     void setUp() {
@@ -46,15 +51,16 @@ public class GroupRepositoryTestSuite {
                 .name("Cars")
                 .products(products)
                 .build();
+
+        groupRepository.save(group);
+        productRepository.save(product1);
+        productRepository.save(product2);
     }
 
     @Test
     void testCreateGroup() {
-        //when
-        Group savedGroup = groupRepository.save(group);
-
         //then
-        assertNotNull(savedGroup);
+        assertNotNull(group);
 
         //clean
         groupRepository.deleteById(group.getId());
@@ -63,25 +69,25 @@ public class GroupRepositoryTestSuite {
     @Test
     void testUpdateGroup() {
         //when
-        groupRepository.save(group);
-        String nameBeforeUpdate= group.getName();
+        Optional<Group> groupBeforeUpdate = groupRepository.findById(group.getId());
 
         group.setName("Toys");
         groupRepository.save(group);
 
+        Optional<Group> groupAfterUpdate = groupRepository.findById(group.getId());
+
         //then
-        assertEquals("Cars",nameBeforeUpdate);
-        assertEquals("Toys", group.getName());
+        assertNotEquals(groupBeforeUpdate, groupAfterUpdate);
 
         //clean
         groupRepository.deleteById(group.getId());
+        productRepository.deleteById(product1.getId());
+        productRepository.deleteById(product2.getId());
     }
 
     @Test
     void testReadGroupById() {
         //when
-        groupRepository.save(group);
-
         Optional groupById = groupRepository.findById(group.getId());
 
         //then
@@ -89,27 +95,27 @@ public class GroupRepositoryTestSuite {
 
         //clean
         groupRepository.deleteById(group.getId());
+        productRepository.deleteById(product1.getId());
+        productRepository.deleteById(product2.getId());
     }
 
     @Test
-    void testReadAllGroups(){
+    void testReadAllGroups() {
         //when
-        groupRepository.save(group);
-
-        List<Group> groups = (List<Group>)groupRepository.findAll();
+        List<Group> groups = (List<Group>) groupRepository.findAll();
 
         //then
-        assertTrue(groups.size()>0);
+        assertTrue(groups.size() > 0);
 
         //clean
         groupRepository.deleteById(group.getId());
+        productRepository.deleteById(product1.getId());
+        productRepository.deleteById(product2.getId());
     }
 
     @Test
     void testDelete() {
         //when
-        groupRepository.save(group);
-
         boolean existBeforeDelete = groupRepository.findById(group.getId()).isPresent();
 
         groupRepository.deleteById(group.getId());
@@ -118,5 +124,57 @@ public class GroupRepositoryTestSuite {
         //then
         assertTrue(existBeforeDelete);
         assertFalse(stillExistAfterDelete);
+    }
+
+    @Test
+    void testOneToManyRelationBetweenGroupAndProduct() {
+        //given
+        group2 = Group.builder()
+                .name("Electronics")
+                .products(new ArrayList<>())
+                .build();
+        groupRepository.save(group2);
+
+        product3 = Product.builder()
+                .name("Mp3Player")
+                .price(10)
+                .group(group2)
+                .build();
+
+        product4 = Product.builder()
+                .name("IPhone")
+                .price(100)
+                .group(group2)
+                .build();
+
+        product5 = Product.builder()
+                .name("Laptop")
+                .price(200)
+                .group(group2)
+                .build();
+
+        productRepository.save(product3);
+        productRepository.save(product4);
+        productRepository.save(product5);
+
+        //when
+        group2.getProducts().add(product3);
+        group2.getProducts().add(product4);
+        group2.getProducts().add(product5);
+        groupRepository.save(group2);
+
+        //then
+        assertNotNull(group2);
+        assertEquals(3, group2.getProducts().size());
+        assertTrue(group2.getProducts().contains(product3));
+        assertTrue(group2.getProducts().contains(product4));
+        assertTrue(group2.getProducts().contains(product5));
+
+        //clean
+        productRepository.deleteById(product3.getId());
+        productRepository.deleteById(product4.getId());
+        productRepository.deleteById(product5.getId());
+        groupRepository.deleteById(group2.getId());
+
     }
 }
