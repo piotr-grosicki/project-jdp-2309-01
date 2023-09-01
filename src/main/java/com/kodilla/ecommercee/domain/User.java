@@ -16,7 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "USERS")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
@@ -29,7 +29,7 @@ public class User {
     private Date expirationDate;
     @NotNull
     private boolean isBlocked;
-    
+
     @OneToMany(
             targetEntity = Cart.class,
             mappedBy = "user",
@@ -61,6 +61,18 @@ public class User {
                 Objects.equals(password, user.password) &&
                 Objects.equals(generatedKey, user.generatedKey) &&
                 Objects.equals(expirationDate, user.expirationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getGeneratedKey() != null ? getGeneratedKey().hashCode() : 0);
+        result = 31 * result + (getExpirationDate() != null ? getExpirationDate().hashCode() : 0);
+        result = 31 * result + (isBlocked() ? 1 : 0);
+        return result;
     }
 
 }
