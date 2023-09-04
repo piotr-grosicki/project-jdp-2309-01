@@ -22,6 +22,7 @@ class ProductRepositoryTestSuite {
     private GroupRepository groupRepository;
     private Group group;
     private Product product;
+    private Long productId;
     
     
     @BeforeEach
@@ -38,6 +39,7 @@ class ProductRepositoryTestSuite {
                          .group(group)
                          .build();
         productRepository.save(product);
+        productId = product.getId();
     }
     
     @AfterEach
@@ -50,8 +52,6 @@ class ProductRepositoryTestSuite {
     @Test
     void shouldCreateData() {
         
-        //given
-        Long productId = product.getId();
         //when
         Optional<Product> optionalProduct = productRepository.findById(productId);
         //then
@@ -62,8 +62,9 @@ class ProductRepositoryTestSuite {
     void shouldReadData() {
         
         //when
-        List<Product> productList = productRepository.findAll();
+        List<Product> productList = productRepository.findAllById(productId);
         Product product1 = productList.get(0);
+        
         //then
         assertEquals(product, product1);
         assertEquals(1000.01, product1.getPrice());
@@ -76,7 +77,7 @@ class ProductRepositoryTestSuite {
         String newDescription = "new description";
         double newPrice = 666.66;
         //when
-        Product product1 = productRepository.findAll().get(0);
+        Product product1 = productRepository.findAllById(productId).get(0);
         product1.setDescription(newDescription);
         product1.setPrice(newPrice);
         productRepository.save(product1);
@@ -108,7 +109,7 @@ class ProductRepositoryTestSuite {
                                   .build();
         productRepository.save(product2);
         //when
-        List<Product> foundList = productRepository.findAll();
+        List<Product> foundList = productRepository.findAllByGroup(group);
         //then
         assertEquals(2, foundList.size());
         assertTrue(foundList.contains(product) && foundList.contains(product2));
