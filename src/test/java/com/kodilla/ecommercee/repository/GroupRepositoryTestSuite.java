@@ -25,11 +25,8 @@ public class GroupRepositoryTestSuite {
 
     private Product product1;
     private Product product2;
-    private Product product3;
-    private Product product4;
-    private Product product5;
     private Group group;
-    private Group group2;
+
 
     @BeforeEach
     void setUp() {
@@ -88,7 +85,7 @@ public class GroupRepositoryTestSuite {
     @Test
     void testReadGroupById() {
         //when
-        Optional groupById = groupRepository.findById(group.getId());
+        Optional<Group> groupById = groupRepository.findById(group.getId());
 
         //then
         assertTrue(groupById.isPresent());
@@ -105,7 +102,7 @@ public class GroupRepositoryTestSuite {
         List<Group> groups = (List<Group>) groupRepository.findAll();
 
         //then
-        assertTrue(groups.size() > 0);
+        assertTrue(!groups.isEmpty());
 
         //clean
         groupRepository.deleteById(group.getId());
@@ -129,6 +126,11 @@ public class GroupRepositoryTestSuite {
     @Test
     void testOneToManyRelationBetweenGroupAndProduct() {
         //given
+        Group group2;
+        Product product3;
+        Product product4;
+        Product product5;
+
         group2 = Group.builder()
                 .name("Electronics")
                 .products(new ArrayList<>())
