@@ -1,9 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Builder
+@Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -34,24 +32,24 @@ public class Group {
     )
     @Builder.Default
     private List<Product> products = new ArrayList<>();
-
+    
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Group group = (Group) o;
-
+    public boolean equals(Object object) {
+        
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        
+        Group group = (Group) object;
+        
         if (!Objects.equals(id, group.id)) return false;
-        if (!Objects.equals(name, group.name)) return false;
-        return Objects.equals(products, group.products);
+        return Objects.equals(name, group.name);
     }
-
+    
     @Override
     public int hashCode() {
+        
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (products != null ? products.hashCode() : 0);
         return result;
     }
 }
