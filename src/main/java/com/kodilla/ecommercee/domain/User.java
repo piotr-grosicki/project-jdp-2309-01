@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
