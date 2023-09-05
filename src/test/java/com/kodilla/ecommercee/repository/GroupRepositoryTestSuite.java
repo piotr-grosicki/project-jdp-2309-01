@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,28 +31,29 @@ public class GroupRepositoryTestSuite {
 
     @BeforeEach
     void setUp() {
+        group = Group.builder()
+                .name("Cars")
+                .products(new ArrayList<>())
+                .build();
+        groupRepository.save(group);
+
         product1 = Product.builder()
                 .name("Product1")
                 .price(10)
+                .group(group)
                 .build();
 
         product2 = Product.builder()
                 .name("Product2")
                 .price(20)
+                .group(group)
                 .build();
 
-        List<Product> products = new ArrayList<>();
-        products.add(product1);
-        products.add(product2);
-
-        group = Group.builder()
-                .name("Cars")
-                .products(products)
-                .build();
-
-        groupRepository.save(group);
         productRepository.save(product1);
         productRepository.save(product2);
+
+        group.getProducts().addAll(Arrays.asList(product1, product2));
+        groupRepository.save(group);
     }
 
     @Test
@@ -74,12 +76,11 @@ public class GroupRepositoryTestSuite {
         Optional<Group> groupAfterUpdate = groupRepository.findById(group.getId());
 
         //then
-        assertNotEquals(groupBeforeUpdate, groupAfterUpdate);
+        assertEquals("Cars", groupBeforeUpdate.get().getName());
+        assertEquals("Toys", groupAfterUpdate.get().getName());
 
         //clean
         groupRepository.deleteById(group.getId());
-        productRepository.deleteById(product1.getId());
-        productRepository.deleteById(product2.getId());
     }
 
     @Test
@@ -92,8 +93,6 @@ public class GroupRepositoryTestSuite {
 
         //clean
         groupRepository.deleteById(group.getId());
-        productRepository.deleteById(product1.getId());
-        productRepository.deleteById(product2.getId());
     }
 
     @Test
@@ -106,8 +105,6 @@ public class GroupRepositoryTestSuite {
 
         //clean
         groupRepository.deleteById(group.getId());
-        productRepository.deleteById(product1.getId());
-        productRepository.deleteById(product2.getId());
     }
 
     @Test
@@ -173,10 +170,7 @@ public class GroupRepositoryTestSuite {
         assertTrue(group2.getProducts().contains(product5));
 
         //clean
-        productRepository.deleteById(product3.getId());
-        productRepository.deleteById(product4.getId());
-        productRepository.deleteById(product5.getId());
+        groupRepository.deleteById(group.getId());
         groupRepository.deleteById(group2.getId());
-
     }
 }
