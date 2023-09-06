@@ -39,7 +39,9 @@ public class GroupMapper {
         return Group.builder()
                 .id(groupDto.getId())
                 .name(groupDto.getName())
-                .products(maptoGroup(groupDto).getProducts())
+                .products(groupDto.getListOfProducts().stream()
+                        .map(this::mapToProduct)
+                        .toList())
                 .build();
     }
 
