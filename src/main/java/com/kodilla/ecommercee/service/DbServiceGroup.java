@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.service;
 
+import com.kodilla.ecommercee.controller.GroupNotFoundException;
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.GroupDto;
 import com.kodilla.ecommercee.repository.GroupRepository;
@@ -23,14 +24,16 @@ public class DbServiceGroup {
         return (List<Group>) groupRepository.findAll();
     }
 
-    public Group readGroupById(Long groupId) {
-        Optional<Group> optionalGroup = groupRepository.findById(groupId);
-        Group group = optionalGroup.get();
-        return group;
+    public Group readGroupById(Long groupId) throws GroupNotFoundException {
+        return groupRepository.findById(groupId).orElseThrow(GroupNotFoundException::new);
     }
 
-    public void deleteGroupById(Long groupId) {
-        groupRepository.deleteById(groupId);
+    public void deleteGroupById(Long groupId) throws GroupNotFoundException {
+        if (!groupRepository.existsById(groupId)) {
+            throw new GroupNotFoundException();
+        } else {
+            groupRepository.deleteById(groupId);
+        }
     }
 
 
