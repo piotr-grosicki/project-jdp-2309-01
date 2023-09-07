@@ -5,21 +5,18 @@ import com.kodilla.ecommercee.domain.GroupDto;
 import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.DbServiceGroup;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/groups")
 public class GroupController {
 
-    private static final Logger logger = LoggerFactory.getLogger(GroupController.class);
     private final GroupMapper groupMapper;
     private final DbServiceGroup dbServiceGroup;
 
@@ -35,7 +32,7 @@ public class GroupController {
 
         Group group = groupMapper.maptoGroup(groupDto);
         dbServiceGroup.saveGroup(group);
-        logger.info("successfully saved");
+        log.info("successfully saved");
         return ResponseEntity.ok().build();
     }
 
@@ -43,8 +40,7 @@ public class GroupController {
     public ResponseEntity<Void> deleteGroupById(@PathVariable Long groupId) throws GroupNotFoundException {
 
         dbServiceGroup.deleteGroupById(groupId);
-        logger.info("successfully deleted");
-
+        log.info("successfully deleted");
         return ResponseEntity.ok().build();
     }
 
@@ -55,13 +51,12 @@ public class GroupController {
     }
 
     @PutMapping("/{groupId}")
-    ResponseEntity<Void> updateGroup(@PathVariable Long groupId, @RequestBody GroupDto groupDto) throws GroupNotFoundException {
+    public ResponseEntity<Group> updateGroup(@PathVariable Long groupId, @RequestBody GroupDto groupDto) throws GroupNotFoundException {
 
-        Group updatedGroup = dbServiceGroup.readGroupById(groupId);
-        groupDto.setId(updatedGroup.getId());
-        dbServiceGroup.saveGroup(groupMapper.maptoGroup((groupDto)));
-        logger.info("successfully updated");
-
-        return ResponseEntity.ok().build();
+        Group groupAfterUpdate = dbServiceGroup.readGroupById(groupId);
+        groupAfterUpdate.setName(groupDto.getName());
+        groupAfterUpdate.setProducts(groupMapper.mapToProductList(groupDto.getListOfProducts()));
+        dbServiceGroup.saveGroup(groupAfterUpdate);
+        return ResponseEntity.ok(groupAfterUpdate);
     }
 }

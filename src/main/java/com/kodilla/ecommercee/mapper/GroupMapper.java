@@ -7,6 +7,7 @@ import com.kodilla.ecommercee.domain.ProductDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupMapper {
@@ -21,7 +22,7 @@ public class GroupMapper {
                 .build();
     }
 
-    public ProductDto mapToProductDto (final Product product) {
+    public ProductDto mapToProductDto(final Product product) {
         return ProductDto.builder()
                 .id(product.getId())
                 .build();
@@ -30,12 +31,18 @@ public class GroupMapper {
     public List<ProductDto> mapToProductDtoList(final List<Product> listOfProducts) {
         return listOfProducts.stream()
                 .map(this::mapToProductDto)
-                .toList();
+                .collect(Collectors.toList());
+    }
+
+    public List<Product> mapToProductList(final List<ProductDto> listOfProductsDto) {
+        return listOfProductsDto.stream()
+                .map(this::mapToProduct)
+                .collect(Collectors.toList());
     }
 
     // --------------------------------------------------------------------------------
 
-    public Group maptoGroup(final GroupDto groupDto){
+    public Group maptoGroup(final GroupDto groupDto) {
         return Group.builder()
                 .id(groupDto.getId())
                 .name(groupDto.getName())
@@ -45,7 +52,7 @@ public class GroupMapper {
                 .build();
     }
 
-    public GroupDto mapToGroupDto(final Group group){
+    public GroupDto mapToGroupDto(final Group group) {
         return GroupDto.builder()
                 .id(group.getId())
                 .name(group.getName())
@@ -56,6 +63,6 @@ public class GroupMapper {
     public List<GroupDto> mapToGroupDtoList(final List<Group> groupList) {
         return groupList.stream()
                 .map(this::mapToGroupDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 }
