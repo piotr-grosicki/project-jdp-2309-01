@@ -51,7 +51,7 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
         Product product = productMapper.mapToProduct(productDto);
         Product savedProduct = productService.saveProduct(product);

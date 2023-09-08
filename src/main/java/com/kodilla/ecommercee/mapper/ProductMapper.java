@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,16 +25,15 @@ public class ProductMapper {
 
     @SneakyThrows
     public Product mapToProduct(final ProductDto productDto) {
-        Group group = (productDto.getGroupId() != null) ? groupService.getGroupById(productDto.getGroupId()) : null;
 
         return new Product(
                 productDto.getId(),
                 productDto.getName(),
                 productDto.getDescription(),
                 productDto.getPrice(),
-                group,
-                null,
-                null
+                (productDto.getGroupId() != null) ? groupService.getGroupById(productDto.getGroupId()) : null,
+                (productDto.getCartIds() != null) ? new ArrayList<>() : null,
+                (productDto.getOrderIds() != null) ? new ArrayList<>() : null
         );
     }
 

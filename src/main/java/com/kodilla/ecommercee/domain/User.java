@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class User {
     private String username;
     private String password;
     private String generatedKey;
-    private Date expirationDate;
+    private LocalDate expirationDate;
     @NotNull
     private boolean isBlocked;
 
