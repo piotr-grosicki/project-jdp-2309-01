@@ -27,7 +27,7 @@ public class Group {
     @OneToMany(
             targetEntity = Product.class,
             mappedBy = "group",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
     @Builder.Default
