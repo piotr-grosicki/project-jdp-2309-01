@@ -29,8 +29,7 @@ public class Product {
     
     @NotNull
     private double price;
-    
-    @NotNull
+
     @ManyToOne
     @JoinColumn(name = "GROUP_ID")
     private Group group;

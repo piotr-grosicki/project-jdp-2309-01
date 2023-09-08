@@ -27,7 +27,7 @@ public class Group {
     @OneToMany(
             targetEntity = Product.class,
             mappedBy = "group",
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
             fetch = FetchType.LAZY
     )
     @Builder.Default
@@ -52,4 +52,5 @@ public class Group {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
+
 }
