@@ -21,7 +21,7 @@ public class ProductService {
     }
 
     public Product getProductById(final Long id) {
-        return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+        return productRepository.findById(id).orElseThrow();
     }
 
     public Product saveProduct(final Product product) {
@@ -30,7 +30,7 @@ public class ProductService {
 
     public void deleteProduct(final Long id) {
         if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(id);
         }
         productRepository.deleteById(id);
     }

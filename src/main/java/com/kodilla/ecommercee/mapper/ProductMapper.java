@@ -1,15 +1,12 @@
 package com.kodilla.ecommercee.mapper;
 
-import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.domain.cart.Cart;
 import com.kodilla.ecommercee.dto.ProductDto;
-import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.service.GroupService;
 import com.kodilla.ecommercee.service.ProductService;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

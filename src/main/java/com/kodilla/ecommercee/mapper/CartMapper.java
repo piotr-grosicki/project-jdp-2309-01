@@ -2,6 +2,8 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.domain.cart.*;
+import com.kodilla.ecommercee.dto.CartDto;
+import com.kodilla.ecommercee.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class CartMapper {
         
         List<ProductDto> productDtoList = cart.getProducts()
                                               .stream()
-                                              .map(productMapper::mapProductToProductDto)
+                                              .map(productMapper::mapToProductDto)
                                               .toList();
         return new CartProductsDto(cart.getId(), productDtoList);
     }
