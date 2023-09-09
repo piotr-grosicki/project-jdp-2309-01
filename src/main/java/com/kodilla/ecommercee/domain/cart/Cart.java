@@ -1,5 +1,7 @@
-package com.kodilla.ecommercee.domain;
+package com.kodilla.ecommercee.domain.cart;
 
+import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,7 +32,7 @@ public class Cart {
     @NotNull
     private LocalDate created;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "JOIN_CART_PRODUCT",
             joinColumns = @JoinColumn(name = "CART_ID"),

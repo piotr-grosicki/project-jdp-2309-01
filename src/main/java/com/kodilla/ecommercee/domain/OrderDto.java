@@ -8,10 +8,10 @@ import java.util.List;
 public class OrderDto {
 
     private Long id;
-    private int userId;
+    private Long userId;
     private LocalDate orderDate;
     private String status;
-    private List<ProductDto> products;
+    private List<Long> products;
 }
 
 
