@@ -85,7 +85,7 @@ class ProductRepositoryTestSuite {
         assertTrue(productRepository.findById(product.getId()).isPresent());
         assertEquals(newDescription, productRepository.findById(product.getId()).get().getDescription());
         assertEquals(newPrice, productRepository.findById(product.getId()).get().getPrice());
-        assertEquals(product.getId(), productRepository.findAll().get(0).getId());
+        assertEquals(product1.getId(), productRepository.findAll().get(0).getId());
     }
     
     @Test

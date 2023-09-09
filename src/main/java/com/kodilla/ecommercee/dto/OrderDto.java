@@ -1,4 +1,5 @@
-package com.kodilla.ecommercee.domain;
+package com.kodilla.ecommercee.dto;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import java.time.LocalDate;
@@ -8,10 +9,10 @@ import java.util.List;
 public class OrderDto {
 
     private Long id;
-    private int userId;
+    private Long userId;
     private LocalDate orderDate;
     private String status;
-    private List<ProductDto> products;
+    private List<Long> productIds;
 }
 
 

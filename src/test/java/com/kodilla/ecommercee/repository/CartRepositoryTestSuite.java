@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.repository;
 
-import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.cart.Cart;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +37,7 @@ public class CartRepositoryTestSuite {
                 .username("user")
                 .password("password")
                 .generatedKey("key")
-                .expirationDate(Date.valueOf(LocalDate.now().plusDays(1)))
+                .expirationDate(LocalDate.now().plusDays(1))
                 .isBlocked(false)
                 .build();
 

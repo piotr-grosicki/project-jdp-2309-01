@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.domain;
+package com.kodilla.ecommercee.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,8 +13,7 @@ public class ProductDto {
     private String name;
     private String description;
     private double price;
-
-    private Group group;
-    private List<Cart> carts;
-    private List<Order> orders;
+    private Long groupId;
+    private List<Long> cartIds;
+    private List<Long> orderIds;
 }

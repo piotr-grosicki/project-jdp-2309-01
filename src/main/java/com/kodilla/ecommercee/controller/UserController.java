@@ -1,6 +1,6 @@
+/*
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.UserDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,3 +40,4 @@ public class UserController {
 
     }
 }
+*/
