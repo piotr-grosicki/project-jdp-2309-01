@@ -23,7 +23,6 @@ public class ProductMapper {
     private final ProductService productService;
     private final GroupService groupService;
 
-    @SneakyThrows
     public Product mapToProduct(final ProductDto productDto) {
 
         return new Product(

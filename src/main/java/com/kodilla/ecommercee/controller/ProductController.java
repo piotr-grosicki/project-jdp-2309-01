@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) throws ProductNotFoundException {
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(productMapper.mapToProductDto(productService.getProductById(id)));
     }
 
@@ -46,20 +46,20 @@ public class ProductController {
     }
 
     @PostMapping("/{productId}/remove-from-group")
-    public ResponseEntity<Void> removeProductFromGroup(@PathVariable Long productId) throws GroupNotFoundException, ProductNotFoundException {
+    public ResponseEntity<Void> removeProductFromGroup(@PathVariable Long productId) {
         productService.removeProductFromGroup(productId);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
-        Product product = productMapper.mapToProduct(productDto);
-        Product savedProduct = productService.saveProduct(product);
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto) {
+        Product updatedProduct = productMapper.mapToProduct(productDto);
+        Product savedProduct = productService.updateProduct(productId, updatedProduct);
         return ResponseEntity.ok(productMapper.mapToProductDto(savedProduct));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) throws ProductNotFoundException {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }

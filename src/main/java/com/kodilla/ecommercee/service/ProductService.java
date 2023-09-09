@@ -21,7 +21,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product getProductById(final Long id) throws ProductNotFoundException {
+    public Product getProductById(final Long id) {
         return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 
@@ -29,14 +29,25 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void deleteProduct(final Long id) throws ProductNotFoundException {
+    public void deleteProduct(final Long id) {
         if (!productRepository.existsById(id)) {
             throw new ProductNotFoundException();
         }
         productRepository.deleteById(id);
     }
 
-    public Product addProductToGroup(Long productId, Long groupId) throws GroupNotFoundException, ProductNotFoundException {
+    public Product updateProduct(Long productId, Product updatedProduct) {
+        Product existingProduct = getProductById(productId);
+
+        existingProduct.setName(updatedProduct.getName());
+        existingProduct.setDescription(updatedProduct.getDescription());
+        existingProduct.setPrice(updatedProduct.getPrice());
+        existingProduct.setGroup(updatedProduct.getGroup());
+
+        return saveProduct(existingProduct);
+    }
+
+    public Product addProductToGroup(Long productId, Long groupId) {
         Product product = getProductById(productId);
         Group group = groupService.getGroupById(groupId);
         group.getProducts().add(product);
@@ -46,7 +57,7 @@ public class ProductService {
         return product;
     }
 
-    public void removeProductFromGroup(Long productId) throws ProductNotFoundException, GroupNotFoundException {
+    public void removeProductFromGroup(Long productId) {
         Product product = getProductById(productId);
         Group group = groupService.getGroupById(product.getGroup().getId());
         group.getProducts().remove(product);
