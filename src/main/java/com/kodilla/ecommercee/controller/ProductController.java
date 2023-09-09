@@ -1,55 +1,66 @@
-//package com.kodilla.ecommercee.controller;
-//
-//
-//import com.kodilla.ecommercee.domain.cart.Cart;
-//import com.kodilla.ecommercee.domain.Group;
-//import com.kodilla.ecommercee.domain.Order;
-//import com.kodilla.ecommercee.domain.ProductDto;
-//import org.springframework.http.MediaType;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/api/products")
-//public class ProductController {
-//
-//    Group testGroup = new Group(1L,"group1", new ArrayList<>());
-//    List<Cart> testCartList = new ArrayList<>();
-//    List<Order> testOrderList = new ArrayList<>();
-//
-//
-//    @GetMapping
-//    public List<ProductDto> getAllProducts() {
-//        List<ProductDto> products = new ArrayList<>();
-//        products.add(new ProductDto(1L, "name_test_1", "description_test_1", 1000.0, testGroup, testCartList, testOrderList));
-//        products.add(new ProductDto(2L, "name_test_2", "description_test_2", 2000.0, testGroup, testCartList, testOrderList));
-//        return products;
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ProductDto getProduct(@PathVariable Long id) {
-//        if (id == 1) {
-//            return new ProductDto(1L, "name_test_1", "description_test_1", 1000.0, testGroup, testCartList, testOrderList);
-//        } else if (id == 2) {
-//            return new ProductDto(2L, "name_test_2", "description_test_2", 2000.0, testGroup, testCartList, testOrderList);
-//        }
-//        return null;
-//    }
-//
-//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public void createProduct(@RequestBody ProductDto productDto) {
-//        //TODO
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
-//        return new ProductDto(id, "edited_name_test", "edited_description_test", 3000.0, testGroup, testCartList, testOrderList);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public void deleteProduct(@PathVariable Long id) {
-//        //TODO
-//    }
-//}
+package com.kodilla.ecommercee.controller;
+
+import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.dto.ProductDto;
+import com.kodilla.ecommercee.error.product.GroupNotFoundException;
+import com.kodilla.ecommercee.error.product.ProductNotFoundException;
+import com.kodilla.ecommercee.mapper.ProductMapper;
+import com.kodilla.ecommercee.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/products")
+public class ProductController {
+
+    private final ProductMapper productMapper;
+    private final ProductService productService;
+
+    @GetMapping
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        return ResponseEntity.ok(productMapper.mapToProductDtoList(products));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productMapper.mapToProductDto(productService.getProductById(id)));
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createProduct(@RequestBody ProductDto productDto) {
+        Product product = productMapper.mapToProduct(productDto);
+        productService.saveProduct(product);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{productId}/add-to-group/{groupId}")
+    public ResponseEntity<ProductDto> addProductToGroup(@PathVariable Long productId, @PathVariable Long groupId) throws GroupNotFoundException, ProductNotFoundException {
+        Product product = productService.addProductToGroup(productId, groupId);
+        return ResponseEntity.ok(productMapper.mapToProductDto(product));
+    }
+
+    @PostMapping("/{productId}/remove-from-group")
+    public ResponseEntity<Void> removeProductFromGroup(@PathVariable Long productId) {
+        productService.removeProductFromGroup(productId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto) {
+        Product updatedProduct = productMapper.mapToProduct(productDto);
+        Product savedProduct = productService.updateProduct(productId, updatedProduct);
+        return ResponseEntity.ok(productMapper.mapToProductDto(savedProduct));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
+}

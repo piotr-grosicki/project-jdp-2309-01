@@ -1,5 +1,8 @@
+/*
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.dto.GroupDto;
+import com.kodilla.ecommercee.dto.ProductDto;
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.GroupDto;
 import com.kodilla.ecommercee.mapper.GroupMapper;
@@ -43,7 +46,7 @@ public class GroupController {
         log.info("successfully deleted");
         return ResponseEntity.ok().build();
     }
-
+    
     @GetMapping("/{groupId}")
     public ResponseEntity<GroupDto> getGroupById(@PathVariable Long groupId) throws GroupNotFoundException {
 
@@ -60,3 +63,4 @@ public class GroupController {
         return ResponseEntity.ok(groupAfterUpdate);
     }
 }
+*/

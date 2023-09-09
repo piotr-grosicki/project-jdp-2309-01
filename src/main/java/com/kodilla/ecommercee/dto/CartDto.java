@@ -1,8 +1,7 @@
-package com.kodilla.ecommercee.domain.cart;
+package com.kodilla.ecommercee.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,5 +12,5 @@ public class CartDto {
     private Long id;
     private Long userId;
     private LocalDate dateCreated;
-    private List<Long> products;
+    private List<Long> productIds;
 }
