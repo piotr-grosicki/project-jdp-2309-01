@@ -72,5 +72,3 @@ public class ProductMapper {
                 .collect(Collectors.toList());
     }
 }
-
-

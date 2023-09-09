@@ -7,7 +7,6 @@ import com.kodilla.ecommercee.error.product.ProductNotFoundException;
 import com.kodilla.ecommercee.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -65,4 +64,3 @@ public class ProductService {
         groupService.saveGroup(group);
     }
 }
-

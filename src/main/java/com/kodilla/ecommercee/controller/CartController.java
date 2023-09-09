@@ -6,70 +6,69 @@ import com.kodilla.ecommercee.dto.CartDto;
 import com.kodilla.ecommercee.dto.OrderDto;
 import com.kodilla.ecommercee.dto.ProductDto;
 import org.springframework.http.HttpStatus;
+import com.kodilla.ecommercee.domain.cart.*;
+import com.kodilla.ecommercee.mapper.CartMapper;
+import com.kodilla.ecommercee.mapper.OrderMapper;
+import com.kodilla.ecommercee.service.*;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
+@Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("api/carts")
 public class CartController {
-
-        Group testGroup = new Group(1L,"group1", new ArrayList<>());
-        List<Cart> testCartList = new ArrayList<>();
-        List<Order> testOrderList = new ArrayList<>();
-
+    
+    private UserService userService;
+    private CartService cartService;
+    private OrderService orderService;
+    private CartMapper cartMapper;
+    private OrderMapper orderMapper;
+    
     @PostMapping()
-    public ResponseEntity<CartDto> createNewCart(@RequestParam int userId) {
-
-        List<ProductDto> products = new ArrayList<>();
-        products.add(new ProductDto(1L, "test1", "test1", 1.0, testGroup, testCartList, testOrderList));
-        products.add(new ProductDto(2L, "test2", "test2", 2.0, testGroup, testCartList, testOrderList));
-        CartDto body = new CartDto(1L, userId, LocalDate.now(), products);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(body);
+    public ResponseEntity<CartDto> createNewCart(@RequestParam Long userId) {
+        
+        log.info("Creating new CART for USER_ID={}...", userId);
+        User user = userService.findUserById(userId);
+        Cart newCart = cartService.createNewCart(user);
+        CartDto cartDto = cartMapper.mapCartToCartDto(cartService.saveCart(newCart));
+        return ResponseEntity.ok(cartDto);
     }
     
     @GetMapping("/{cartId}")
-    public ResponseEntity<List<ProductDto>> fetchAllProducts(@PathVariable Long cartId) {
-
-        List<ProductDto> products = new ArrayList<>();
-        products.add(new ProductDto(1L, "test1", "test1", 1.0, testGroup, testCartList, testOrderList));
-        products.add(new ProductDto(2L, "test2", "test2", 2.0, testGroup, testCartList, testOrderList));
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(products);
+    public ResponseEntity<CartProductsDto> fetchAllProducts(@PathVariable Long cartId) {
+        
+        log.info("Fetching all PRODUCTS contained in CART_ID={}...", cartId);
+        Cart cart = cartService.getCartById(cartId);
+        return ResponseEntity.ok(cartMapper.mapCartToCartProductsDto(cart));
     }
     
     @PatchMapping("/{cartId}")
     public ResponseEntity<CartDto> addProductToCart(@PathVariable Long cartId,
                                                     @RequestParam Long productId) {
-
-        List<ProductDto> products = new ArrayList<>();
-        products.add(new ProductDto(productId, "test1", "test1", 1.0, testGroup, testCartList, testOrderList));
-        CartDto body = new CartDto(cartId, 1, LocalDate.now(), products);
-        return ResponseEntity.status(HttpStatus.ACCEPTED)
-                             .body(body);
+        
+        log.info("Adding PRODUCT_ID={} to CART_ID={}...", productId, cartId);
+        Cart cart = cartService.addProductToCart(cartId, productId);
+        return ResponseEntity.ok(cartMapper.mapCartToCartDto(cart));
     }
     
     @DeleteMapping("/{cartId}")
-    public ResponseEntity<String> deleteProductFromCart(@PathVariable Long cartId,
-                                                        @RequestParam Long productId) {
+    public ResponseEntity<CartDto> deleteProductFromCart(@PathVariable Long cartId,
+                                                         @RequestParam Long productId) {
         
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body("Deleted productId=" + productId + " from cartId=" + cartId);
+        log.info("Deleting PRODUCT_ID={} from CART_ID={}...", productId, cartId);
+        Cart cart = cartService.deleteProductFromCart(productId, cartId);
+        return ResponseEntity.ok(cartMapper.mapCartToCartDto(cart));
     }
     
     @PostMapping("/{cartId}")
     public ResponseEntity<OrderDto> createOrderForCart(@PathVariable Long cartId) {
-
-        List<ProductDto> products = new ArrayList<>();
-        products.add(new ProductDto(1L, "test1", "test1", 1.0, testGroup, testCartList, testOrderList));
-        CartDto cart = new CartDto(cartId, 1, LocalDate.now(), products);
-        OrderDto body = new OrderDto(1L, 1, LocalDate.now(), "created", cart.getProducts());
-        return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(body);
+        
+        log.info("Creating new ORDER for CART_ID={}...", cartId);
+        Order newOrder = orderService.createNewOrder(cartId);
+        return ResponseEntity.ok(orderMapper.mapOrderToOrderDto(newOrder));
     }
 }
 */
