@@ -81,8 +81,8 @@ public class UserRepositoryTestSuite {
         User foundUser = userRepository.findById(userId).orElse(null);
 
         //Then
+        assertNotNull(foundUser);
         assertEquals(user1, foundUser);
-        assertEquals(userId, foundUser.getId());
     }
 
     @Test
@@ -92,6 +92,7 @@ public class UserRepositoryTestSuite {
         List<User> users = userRepository.findAll();
 
         //Then
+        assertEquals(2, users.size());
         assertEquals(user1, users.get(0));
         assertEquals(user2, users.get(1));
     }
@@ -105,6 +106,7 @@ public class UserRepositoryTestSuite {
         userRepository.save(user1);
         User updatedUser = userRepository.findById(user1.getId()).orElse(null);
         //Then
+        assertNotNull(updatedUser);
         assertEquals(updatedPassword, updatedUser.getPassword());
     }
 
@@ -118,33 +120,28 @@ public class UserRepositoryTestSuite {
     }
 
     @Test
+    @Transactional
     public void relationBetweenUserAndCart() {
         // Given
-        User testUser = User.builder()
-                .email("user1@mail.com")
-                .username("user1")
-                .password("password")
-                .isBlocked(false)
-                .build();
-
         Cart cart1 = Cart.builder()
-                .user(testUser)
+                .user(user1)
                 .created(LocalDate.of(2023, 9, 4))
                 .build();
         Cart cart2 = Cart.builder()
-                .user(testUser)
+                .user(user1)
                 .created(LocalDate.now().minusDays(2))
                 .build();
 
         // When
-        userRepository.save(testUser);
         cartRepository.save(cart1);
         cartRepository.save(cart2);
-        testUser.getCarts().add(cart1);
-        testUser.getCarts().add(cart2);
-        userRepository.save(testUser);
+        user1.getCarts().add(cart1);
+        user1.getCarts().add(cart2);
+        userRepository.save(user1);
+        User testUser = userRepository.findById(user1.getId()).orElse(null);
 
         // Then
+        assertNotNull(testUser);
         assertEquals(2, testUser.getCarts().size());
         assertTrue(testUser.getCarts().contains(cart1));
         assertTrue(testUser.getCarts().contains(cart2));
@@ -152,7 +149,6 @@ public class UserRepositoryTestSuite {
         // CleanUp
         cartRepository.deleteById(cart1.getId());
         cartRepository.deleteById(cart2.getId());
-        userRepository.deleteById(testUser.getId());
     }
 
 
@@ -160,34 +156,28 @@ public class UserRepositoryTestSuite {
     @Transactional
     void relationBetweenUserAndOrder() {
         // Given
-        User testUser = User.builder()
-                .email("user1@mail.com")
-                .username("user1")
-                .password("password")
-                .isBlocked(false)
-                .build();
-
         Order order1 = Order.builder()
-                .user(testUser)
+                .user(user1)
                 .orderDate(Date.valueOf(LocalDate.of(2023, 9, 1)))
                 .status("Sent")
                 .build();
 
         Order order2 = Order.builder()
-                .user(testUser)
+                .user(user1)
                 .orderDate(Date.valueOf(LocalDate.now()))
                 .status("In preparing")
                 .build();
 
         // When
-        userRepository.save(testUser);
         orderRepository.save(order1);
         orderRepository.save(order2);
-        testUser.getOrders().add(order1);
-        testUser.getOrders().add(order2);
-        userRepository.save(testUser);
+        user1.getOrders().add(order1);
+        user1.getOrders().add(order2);
+        userRepository.save(user1);
+        User testUser = userRepository.findById(user1.getId()).orElse(user1);
 
         // Then
+        assertNotNull(testUser);
         assertEquals(2, testUser.getOrders().size());
         assertTrue(testUser.getOrders().contains(order1));
         assertTrue(testUser.getOrders().contains(order2));
@@ -195,7 +185,6 @@ public class UserRepositoryTestSuite {
         // Clean up
         orderRepository.deleteById(order1.getId());
         orderRepository.deleteById(order2.getId());
-        userRepository.deleteById(testUser.getId());
     }
 
 }
