@@ -1,9 +1,9 @@
 package com.kodilla.ecommercee.repository;
 
-import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.cart.Cart;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.domain.UserDto;
+import com.kodilla.ecommercee.dto.UserDto;
 import org.junit.After;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,13 +158,13 @@ public class UserRepositoryTestSuite {
         // Given
         Order order1 = Order.builder()
                 .user(user1)
-                .orderDate(Date.valueOf(LocalDate.of(2023, 9, 1)))
+                .orderDate(LocalDate.of(2023, 9, 1))
                 .status("Sent")
                 .build();
 
         Order order2 = Order.builder()
                 .user(user1)
-                .orderDate(Date.valueOf(LocalDate.now()))
+                .orderDate(LocalDate.now())
                 .status("In preparing")
                 .build();
 
