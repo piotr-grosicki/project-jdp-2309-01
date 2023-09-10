@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
+import com.kodilla.ecommercee.domain.cart.Cart;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,8 +30,7 @@ public class Product {
     
     @NotNull
     private double price;
-    
-    @NotNull
+
     @ManyToOne
     @JoinColumn(name = "GROUP_ID")
     private Group group;
