@@ -4,17 +4,23 @@ import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
-import java.util.*;
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 public class OrderRepositoryTestSuite {
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -33,9 +39,7 @@ public class OrderRepositoryTestSuite {
 
     @BeforeEach
     public void setUp() {
-        new ArrayList<Product>().add(product);
         product = Product.builder()
-                .id(1L)
                 .name("productName")
                 .description("productDescription")
                 .price(1000)
@@ -47,32 +51,47 @@ public class OrderRepositoryTestSuite {
                 .username("user")
                 .password("password")
                 .generatedKey("key")
-                .expirationDate(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
+                .expirationDate(LocalDate.now().plusDays(1))
                 .isBlocked(false)
                 .build();
         userRepository.save(user);
 
-        List<Product> productList = new ArrayList<>();
-        productList.add(product);
+        List<Product> productList = Arrays.asList(product);
         order = Order.builder()
-                .id(1L)
                 .user(user)
                 .status("In progress")
                 .products(productList)
-                .orderDate(new Date())
+                .orderDate(LocalDate.now().plusDays(1))
                 .build();
-
         orderRepository.save(order);
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        orderRepository.deleteAll();
+        productRepository.deleteAll();
+        userRepository.deleteAll();
+        groupRepository.deleteAll();
+    }
+
+
+    @Test
+    void shouldFindAllOrders() {
+        List<Order> orders = (List<Order>) orderRepository.findAll();
+        assertNotNull(orders);
+        assertEquals(1, orders.size());
+
 
     }
 
     @Test
+    void shouldUpdate() {
 
-    void shouldFindAllOrders() {
-        List<Order> orders = (List<Order>) orderRepository.findAll();
+        assertEquals("In progress", order.getStatus());
 
-        Assertions.assertNotNull(orders);
-        Assertions.assertEquals(1, orders.size());
+        order.setStatus("new update");
+
+        assertEquals("new update", order.getStatus());
 
     }
 
@@ -80,49 +99,35 @@ public class OrderRepositoryTestSuite {
     @Test
     void shouldFindOrderById() {
         Optional<Order> ordersById = orderRepository.findById(order.getId());
-        Assertions.assertNotNull(ordersById);
-        Assertions.assertEquals(1L, ordersById.get().getId());
-
+        assertTrue(ordersById.isPresent());
+        assertEquals(2, ordersById.get().getId());
     }
 
+
     @Test
-     void shouldUpdateOrder() {
-        order.setStatus("new update");
-        Order orderUpdate = orderRepository.save(order);
-
-        Assertions.assertEquals("new update", orderUpdate.getStatus());
-
+    void shouldDeleteOrder() {
+        orderRepository.deleteById(order.getId());
+        assertFalse(orderRepository.existsById(order.getId()));
     }
-
-    @Test
-   void shouldDeleteOrder(){
-      orderRepository.deleteById(order.getId());
-       assertFalse(orderRepository.existsById(order.getId()));
-        productRepository.deleteById(product.getId());
-  }
 
     @Test
     void relationBetweenOrdersAndProducts() {
-
-
-      Group  group2 = Group.builder()
+        Group group2 = Group.builder()
                 .name("group")
                 .build();
         groupRepository.save(group2);
 
-
-     User  user2 = User.builder()
-                .email("user@gmail.com")
-                .username("user")
+        User user2 = User.builder()
+                .email("user2@gmail.com")
+                .username("user2")
                 .password("password")
-                .generatedKey("key")
-                .expirationDate(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
+                .generatedKey("key2")
+                .expirationDate(LocalDate.now().plusDays(1))
                 .isBlocked(false)
                 .build();
         userRepository.save(user2);
 
         Product product1 = Product.builder()
-                .id(1L)
                 .name("product1Name")
                 .group(group2)
                 .description("product1Description")
@@ -131,27 +136,30 @@ public class OrderRepositoryTestSuite {
         productRepository.save(product1);
 
         Product product2 = Product.builder()
-                .id(2L)
-                .group(group2)
                 .name("product2Name")
+                .group(group2)
                 .description("product2Description")
                 .price(2000)
                 .build();
         productRepository.save(product2);
 
         Order order1 = Order.builder()
-                .id(1L)
                 .user(user2)
                 .status("In progress")
-                .products(Arrays.asList(product1,product2))
-                .orderDate(new Date())
+                .products(Arrays.asList(product1, product2))
+                .orderDate(LocalDate.now().plusDays(1))
                 .build();
         orderRepository.save(order1);
 
-        Assertions.assertEquals(2, order1.getProducts().size());
-        Assertions.assertTrue(order1.getProducts().contains(product1));
-        Assertions.assertTrue(order1.getProducts().contains(product2));
 
+        Order savedOrder = orderRepository.findById(order1.getId()).orElse(null);
+        Product savedProduct1 = productRepository.findById(product1.getId()).orElse(null);
+        Product savedProduct2 = productRepository.findById(product2.getId()).orElse(null);
+
+
+        assertNotNull(savedOrder);
+        assertEquals(2, savedOrder.getProducts().size());
+        assertTrue(savedOrder.getProducts().contains(savedProduct1));
+        assertTrue(savedOrder.getProducts().contains(savedProduct2));
     }
 }
-
