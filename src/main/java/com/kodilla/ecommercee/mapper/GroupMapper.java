@@ -22,7 +22,7 @@ public class GroupMapper {
                             product.setId(productId);
                             return product;
                         })
-                        .toList())
+                        .collect(Collectors.toList()))
                 .build();
     }
 

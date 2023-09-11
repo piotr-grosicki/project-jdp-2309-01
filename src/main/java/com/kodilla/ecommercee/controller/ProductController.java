@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.dto.ProductDto;
+import com.kodilla.ecommercee.error.group.GroupErrorHandler;
 import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.error.product.ProductNotFoundException;
 import com.kodilla.ecommercee.mapper.ProductMapper;
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<Void> createProduct(@RequestBody ProductDto productDto) throws GroupNotFoundException {
         Product product = productMapper.mapToProduct(productDto);
         productService.saveProduct(product);
         return ResponseEntity.ok().build();
@@ -52,7 +53,7 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto) throws GroupNotFoundException {
         Product updatedProduct = productMapper.mapToProduct(productDto);
         Product savedProduct = productService.updateProduct(productId, updatedProduct);
         return ResponseEntity.ok(productMapper.mapToProductDto(savedProduct));

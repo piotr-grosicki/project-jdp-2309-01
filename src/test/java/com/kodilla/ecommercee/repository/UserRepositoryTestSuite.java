@@ -1,13 +1,16 @@
 package com.kodilla.ecommercee.repository;
+
+import com.kodilla.ecommercee.domain.cart.Cart;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.domain.cart.Cart;
+import com.kodilla.ecommercee.domain.cart.CartProductsDto;
+import org.junit.After;
+
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -155,13 +158,13 @@ public class UserRepositoryTestSuite {
         // Given
         Order order1 = Order.builder()
                 .user(user1)
-                .orderDate(Date.valueOf(LocalDate.of(2023, 9, 1)).toLocalDate())
+                .orderDate(LocalDate.of(2023, 9, 1))
                 .status("Sent")
                 .build();
 
         Order order2 = Order.builder()
                 .user(user1)
-                .orderDate(Date.valueOf(LocalDate.now()).toLocalDate())
+                .orderDate(LocalDate.now())
                 .status("In preparing")
                 .build();
 
