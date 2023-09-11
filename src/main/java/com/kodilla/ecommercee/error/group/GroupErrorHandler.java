@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.error.group;
 
-import com.kodilla.ecommercee.controller.GroupNotFoundException;
+import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,4 +14,5 @@ public class GroupErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleTaskNotFoundException(GroupNotFoundException exception) {
         return new ResponseEntity<>("Group with given id doesn't exists", HttpStatus.BAD_REQUEST);
     }
+
 }

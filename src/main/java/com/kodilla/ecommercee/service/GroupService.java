@@ -2,38 +2,48 @@ package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.error.group.GroupErrorHandler;
 import com.kodilla.ecommercee.error.product.GroupNotFoundException;
-import com.kodilla.ecommercee.error.product.ProductNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
-import com.kodilla.ecommercee.repository.ProductRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GroupService {
 
     private final GroupRepository groupRepository;
 
-    public List<Group> getAllGroups() {
-        return groupRepository.findAll();
-    }
-
-    public Group getGroupById(final Long id) throws GroupNotFoundException {
-        return groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
-    }
-
-    public Group saveGroup(final Group group) {
+    public Group saveGroup(Group group) {
         return groupRepository.save(group);
     }
 
-    public void deleteGroup(final Long id) throws GroupNotFoundException {
-        if (!groupRepository.existsById(id)) {
-            throw new GroupNotFoundException();
-        }
-        groupRepository.deleteById(id);
+    public List<Group> readAllGroups() {
+        return (List<Group>) groupRepository.findAll();
     }
-}
 
+    public Group readGroupById(Long groupId) throws GroupNotFoundException {
+        return groupRepository.findById(groupId).orElseThrow(GroupNotFoundException::new);
+    }
+
+    public Group updateGroup(Long groupId, Group updatedGroup) throws GroupNotFoundException {
+        Group existingGroup = readGroupById(groupId);
+
+        existingGroup.setName(updatedGroup.getName());
+        existingGroup.setProducts(updatedGroup.getProducts());
+
+        return saveGroup(existingGroup);
+    }
+
+    public void deleteGroupById(Long groupId) throws GroupNotFoundException {
+        if (!groupRepository.existsById(groupId)) {
+            throw new GroupNotFoundException();
+        } else {
+            groupRepository.deleteById(groupId);
+        }
+    }
+
+
+}
