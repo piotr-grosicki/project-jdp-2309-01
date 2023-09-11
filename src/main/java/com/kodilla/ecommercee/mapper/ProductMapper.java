@@ -4,6 +4,8 @@ import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.cart.Cart;
 import com.kodilla.ecommercee.dto.ProductDto;
+import com.kodilla.ecommercee.error.group.GroupErrorHandler;
+import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.service.GroupService;
 import com.kodilla.ecommercee.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -20,14 +22,14 @@ public class ProductMapper {
     private final ProductService productService;
     private final GroupService groupService;
 
-    public Product mapToProduct(final ProductDto productDto) {
+    public Product mapToProduct(final ProductDto productDto) throws GroupNotFoundException {
 
         return new Product(
                 productDto.getId(),
                 productDto.getName(),
                 productDto.getDescription(),
                 productDto.getPrice(),
-                (productDto.getGroupId() != null) ? groupService.getGroupById(productDto.getGroupId()) : null,
+                (productDto.getGroupId() != null) ? groupService.readGroupById(productDto.getGroupId()) : null,
                 (productDto.getCartIds() != null) ? new ArrayList<>() : null,
                 (productDto.getOrderIds() != null) ? new ArrayList<>() : null
         );
@@ -63,7 +65,7 @@ public class ProductMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<Product> mapToProductList(List<ProductDto> productDtos) {
+    public List<Product> mapToProductList(List<ProductDto> productDtos)  {
         return productDtos.stream()
                 .map(this::mapToProduct)
                 .collect(Collectors.toList());

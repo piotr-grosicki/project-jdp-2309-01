@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.error.group.GroupErrorHandler;
 import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.error.product.ProductNotFoundException;
 import com.kodilla.ecommercee.repository.ProductRepository;
@@ -46,9 +47,9 @@ public class ProductService {
         return saveProduct(existingProduct);
     }
 
-    public Product addProductToGroup(Long productId, Long groupId) {
+    public Product addProductToGroup(Long productId, Long groupId) throws GroupNotFoundException {
         Product product = getProductById(productId);
-        Group group = groupService.getGroupById(groupId);
+        Group group = groupService.readGroupById(groupId);
         group.getProducts().add(product);
         product.setGroup(group);
         saveProduct(product);
@@ -56,9 +57,9 @@ public class ProductService {
         return product;
     }
 
-    public void removeProductFromGroup(Long productId) {
+    public void removeProductFromGroup(Long productId) throws GroupNotFoundException {
         Product product = getProductById(productId);
-        Group group = groupService.getGroupById(product.getGroup().getId());
+        Group group = groupService.readGroupById(product.getGroup().getId());
         group.getProducts().remove(product);
         product.setGroup(null);
         groupService.saveGroup(group);
