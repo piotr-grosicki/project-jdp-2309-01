@@ -68,7 +68,7 @@ public class OrderController {
     @PatchMapping("/add-product/{productId}/{orderId}")
     public ResponseEntity<OrderDto> addProductToOrder(@PathVariable Long productId, @PathVariable Long orderId) {
         log.info("Adding PRODUCT(id={}) to ORDER(id={})", productId, orderId);
-        return ResponseEntity.ok(orderMapper.mapToOrderDto(orderService.addProductToOrder(orderId, productId)));
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(orderService.addProductToOrder(productId, orderId)));
     }
 
     @DeleteMapping("/{orderId}")

@@ -38,12 +38,7 @@ public class Product {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Cart> carts;
     
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "JOIN_PRODUCT_ORDER",
-            joinColumns = @JoinColumn(name = "PRODUCT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "ORDER_ID")
-    )
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Order> orders;
     
     @Override

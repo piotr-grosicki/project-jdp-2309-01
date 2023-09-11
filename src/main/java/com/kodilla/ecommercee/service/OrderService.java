@@ -73,8 +73,8 @@ public class OrderService {
     }
 
     public Order deleteProductFromOrder(Long productId, Long orderId) {
-        Order order = this.getOrderById(productId);
-        Product product = productService.getProductById(orderId);
+        Order order = this.getOrderById(orderId);
+        Product product = productService.getProductById(productId);
         order.getProducts().remove(product);
         return this.saveOrder(order);
     }
