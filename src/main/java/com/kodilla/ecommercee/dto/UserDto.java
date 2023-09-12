@@ -16,4 +16,5 @@ public class UserDto {
     private String generatedKey;
     private LocalDate expirationDate;
     private boolean isBlocked;
+
 }
