@@ -25,7 +25,6 @@ public class GroupController {
 
     private final GroupMapper groupMapper;
     private final GroupService groupService;
-    private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<GroupDto>> getAllGroups() {

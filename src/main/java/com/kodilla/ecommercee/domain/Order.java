@@ -32,10 +32,12 @@ public class Order {
     
     private String status;
     
-    @ManyToMany(targetEntity =Product.class,
-                mappedBy = "orders",
-                cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
-                fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "JOIN_PRODUCT_ORDER",
+            joinColumns = @JoinColumn(name = "ORDER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
+    )
     @Builder.Default
     private List<Product> products = new ArrayList<>();
     @Override

@@ -66,7 +66,7 @@ public class CartController {
     public ResponseEntity<OrderDto> createOrderForCart(@PathVariable Long cartId) {
         
         log.info("Creating new ORDER for CART_ID={}...", cartId);
-        Order newOrder = orderService.createNewOrder(cartId);
-        return ResponseEntity.ok(orderMapper.mapOrderToOrderDto(newOrder));
+        Order newOrder = orderService.createOrder(cartId);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(newOrder));
     }
 }
