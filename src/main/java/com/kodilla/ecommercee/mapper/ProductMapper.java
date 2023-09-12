@@ -2,24 +2,20 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.domain.cart.Cart;
-import com.kodilla.ecommercee.dto.ProductDto;
-import com.kodilla.ecommercee.error.group.GroupErrorHandler;
+import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.dto.product.ProductDto;
 import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.service.GroupService;
-import com.kodilla.ecommercee.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ProductMapper {
-
-    private final ProductService productService;
+    
     private final GroupService groupService;
 
     public Product mapToProduct(final ProductDto productDto) throws GroupNotFoundException {
@@ -39,12 +35,12 @@ public class ProductMapper {
         List<Long> cartIds = product.getCarts()
                 .stream()
                 .map(Cart::getId)
-                .collect(Collectors.toList());
+                .toList();
 
         List<Long> orderIds = product.getOrders()
                 .stream()
                 .map(Order::getId)
-                .collect(Collectors.toList());
+                .toList();
 
         Long groupId = (product.getGroup() != null) ? product.getGroup().getId() : null;
 
@@ -62,12 +58,6 @@ public class ProductMapper {
     public List<ProductDto> mapToProductDtoList(List<Product> products) {
         return products.stream()
                 .map(this::mapToProductDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<Product> mapToProductList(List<ProductDto> productDtos)  {
-        return productDtos.stream()
-                .map(this::mapToProduct)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

@@ -1,18 +1,16 @@
-package com.kodilla.ecommercee.dto;
+package com.kodilla.ecommercee.dto.cart;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
-@Builder
-public class GroupDto {
-
+public class CartDto {
+    
     private Long id;
-    private String name;
+    private Long userId;
+    private LocalDate dateCreated;
     private List<Long> productIds;
-
 }

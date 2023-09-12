@@ -1,6 +1,6 @@
-package com.kodilla.ecommercee.domain.cart;
+package com.kodilla.ecommercee.dto.cart;
 
-import com.kodilla.ecommercee.dto.ProductDto;
+import com.kodilla.ecommercee.dto.product.ProductDto;
 import lombok.*;
 
 import java.util.List;

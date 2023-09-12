@@ -3,11 +3,10 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.dto.GroupDto;
+import com.kodilla.ecommercee.dto.group.GroupDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GroupMapper {
@@ -22,7 +21,7 @@ public class GroupMapper {
                             product.setId(productId);
                             return product;
                         })
-                        .collect(Collectors.toList()))
+                        .toList())
                 .build();
     }
 
@@ -37,12 +36,12 @@ public class GroupMapper {
     public List<GroupDto> mapToGroupDtoList(final List<Group> groupList) {
         return groupList.stream()
                 .map(this::mapToGroupDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Long> mapToProductIdList(final List<Product> productList) {
         return productList.stream()
                 .map(Product::getId)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

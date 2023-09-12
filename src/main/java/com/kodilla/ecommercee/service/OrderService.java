@@ -2,11 +2,9 @@ package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.domain.cart.Cart;
+import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.error.order.OrderNotFoundException;
-import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
-import com.kodilla.ecommercee.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +16,8 @@ import java.util.List;
 public class OrderService {
 
     private CartService cartService;
-    private CartRepository cartRepository;
     private OrderRepository orderRepository;
     private ProductService productService;
-    private ProductRepository productRepository;
 
     public Order createOrder(Long cartId) {
         Cart cart = cartService.getCartById(cartId);
@@ -72,11 +68,11 @@ public class OrderService {
         return this.saveOrder(order);
     }
 
-    public Order deleteProductFromOrder(Long productId, Long orderId) {
+    public void deleteProductFromOrder(Long productId, Long orderId) {
         Order order = this.getOrderById(orderId);
         Product product = productService.getProductById(productId);
         order.getProducts().remove(product);
-        return this.saveOrder(order);
+        this.saveOrder(order);
     }
 
     public List<Product> getAllProducts(Long orderId) {

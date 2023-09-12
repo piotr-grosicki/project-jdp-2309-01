@@ -1,7 +1,5 @@
-package com.kodilla.ecommercee.domain.cart;
+package com.kodilla.ecommercee.domain;
 
-import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.domain.User;
 import lombok.*;
 
 import javax.persistence.*;

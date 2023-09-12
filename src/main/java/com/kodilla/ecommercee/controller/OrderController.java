@@ -1,32 +1,27 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.*;
-import com.kodilla.ecommercee.domain.cart.CartProductsDto;
-import com.kodilla.ecommercee.dto.OrderDto;
-import com.kodilla.ecommercee.dto.ProductDto;
+import com.kodilla.ecommercee.domain.Order;
+import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.dto.order.OrderDto;
+import com.kodilla.ecommercee.dto.product.ProductDto;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.mapper.ProductMapper;
-import com.kodilla.ecommercee.service.CartService;
 import com.kodilla.ecommercee.service.OrderService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
-
-    @Autowired
+    
     private OrderService orderService;
-    @Autowired
     private OrderMapper orderMapper;
-    @Autowired
-    private CartService cartService;
-    @Autowired
     private ProductMapper productMapper;
 
     @PostMapping("/{cartId}")

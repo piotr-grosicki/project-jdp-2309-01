@@ -2,7 +2,6 @@ package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.error.group.GroupErrorHandler;
 import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.error.product.ProductNotFoundException;
 import com.kodilla.ecommercee.repository.ProductRepository;

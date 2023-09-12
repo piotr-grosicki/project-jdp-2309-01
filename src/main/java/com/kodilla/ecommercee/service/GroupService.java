@@ -1,8 +1,6 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
-import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.error.group.GroupErrorHandler;
 import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,7 @@ public class GroupService {
     }
 
     public List<Group> readAllGroups() {
-        return (List<Group>) groupRepository.findAll();
+        return groupRepository.findAll();
     }
 
     public Group readGroupById(Long groupId) throws GroupNotFoundException {

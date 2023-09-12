@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.dto.UserDto;
+import com.kodilla.ecommercee.dto.user.UserDto;
 import com.kodilla.ecommercee.error.product.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.service.UserService;
@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -31,7 +30,6 @@ public class UserController {
         if (user != null) {
             return userMapper.mapToUserDto(user);
         } else {
-
             throw new UserNotFoundException();
         }
     }
@@ -43,21 +41,21 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         List<UserDto> userDto = users.stream()
                 .map(userMapper::mapToUserDto)
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(userDto);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto updatedUserDto) {
-        User existingUser = userService.getUserById(id);
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long userId, @RequestBody UserDto updatedUserDto) {
+        User existingUser = userService.getUserById(userId);
         if (existingUser != null) {
             User updatedUser = userMapper.mapToUser(updatedUserDto);
-            updatedUser.setId(id);
+            updatedUser.setId(userId);
             User savedUser = userService.saveUser(updatedUser);
             UserDto savedUserDto = userMapper.mapToUserDto(savedUser);
             return ResponseEntity.ok(savedUserDto);

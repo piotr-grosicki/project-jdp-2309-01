@@ -1,8 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.dto.ProductDto;
-import com.kodilla.ecommercee.error.group.GroupErrorHandler;
+import com.kodilla.ecommercee.dto.product.ProductDto;
 import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.error.product.ProductNotFoundException;
 import com.kodilla.ecommercee.mapper.ProductMapper;

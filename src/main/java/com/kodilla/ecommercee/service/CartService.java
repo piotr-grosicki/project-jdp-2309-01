@@ -1,7 +1,8 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.domain.*;
-import com.kodilla.ecommercee.domain.cart.Cart;
+import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.error.cart.CartNotFoundException;
 import com.kodilla.ecommercee.error.cart.NoProductInCartException;
 import com.kodilla.ecommercee.repository.CartRepository;

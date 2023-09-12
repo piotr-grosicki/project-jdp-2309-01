@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.repository;
 
-import com.kodilla.ecommercee.domain.cart.Cart;
+import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +54,7 @@ public class CartRepositoryTestSuite {
     @Test
     void cartRepositoryCreateTestSuite() {
         // When
-        List<Cart> carts = (List<Cart>) cartRepository.findAll();
+        List<Cart> carts = cartRepository.findAll();
 
         // Then
         assertFalse(carts.isEmpty());

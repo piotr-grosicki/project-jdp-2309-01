@@ -2,12 +2,10 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.Group;
-import com.kodilla.ecommercee.dto.GroupDto;
-import com.kodilla.ecommercee.error.group.GroupErrorHandler;
+import com.kodilla.ecommercee.dto.group.GroupDto;
 import com.kodilla.ecommercee.error.product.GroupNotFoundException;
 import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.GroupService;
-import com.kodilla.ecommercee.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -25,7 +23,6 @@ public class GroupController {
 
     private final GroupMapper groupMapper;
     private final GroupService groupService;
-    private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<GroupDto>> getAllGroups() {

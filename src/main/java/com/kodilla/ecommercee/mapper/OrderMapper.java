@@ -4,7 +4,7 @@ package com.kodilla.ecommercee.mapper;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.dto.OrderDto;
+import com.kodilla.ecommercee.dto.order.OrderDto;
 import com.kodilla.ecommercee.repository.ProductRepository;
 import com.kodilla.ecommercee.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -32,17 +32,14 @@ public class OrderMapper {
     }
 
     public List<OrderDto> mapToOrderDtoList(List<Order> orders) {
-        List<OrderDto> orderDtoList =  orders.stream()
-                .map(this::mapToOrderDto)
-                .toList();
-        return orderDtoList;
+        return orders.stream()
+                     .map(this::mapToOrderDto)
+                     .toList();
     }
 
     public Order mapToOrder(OrderDto orderDto) {
         User user = orderService.getOrderById(orderDto.getId()).getUser();
         List<Product> products = orderService.getOrderById(orderDto.getId()).getProducts();
         return new Order(orderDto.getId(), user, orderDto.getOrderDate(), orderDto.getStatus(), products);
-
     }
-
 }

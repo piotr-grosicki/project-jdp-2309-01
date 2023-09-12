@@ -1,9 +1,10 @@
 package com.kodilla.ecommercee.mapper;
 
-import com.kodilla.ecommercee.domain.*;
-import com.kodilla.ecommercee.domain.cart.*;
-import com.kodilla.ecommercee.dto.CartDto;
-import com.kodilla.ecommercee.dto.ProductDto;
+import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.dto.cart.CartDto;
+import com.kodilla.ecommercee.dto.cart.CartProductsDto;
+import com.kodilla.ecommercee.dto.product.ProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

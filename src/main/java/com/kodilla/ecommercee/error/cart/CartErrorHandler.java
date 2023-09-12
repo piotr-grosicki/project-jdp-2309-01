@@ -1,12 +1,13 @@
 package com.kodilla.ecommercee.error.cart;
 
+import com.kodilla.ecommercee.controller.CartController;
 import com.kodilla.ecommercee.error.cart.dto.CartNotFoundDto;
 import com.kodilla.ecommercee.error.cart.dto.ProductNotFoundInCartDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = CartController.class)
 @Slf4j
 public class CartErrorHandler {
 

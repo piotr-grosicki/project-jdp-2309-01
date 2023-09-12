@@ -1,11 +1,9 @@
 package com.kodilla.ecommercee.mapper;
-import com.kodilla.ecommercee.domain.*;
-import com.kodilla.ecommercee.dto.UserDto;
-import com.kodilla.ecommercee.service.UserService;
+import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.dto.user.UserDto;
 import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
-    private UserService userService;
 
     public UserDto mapToUserDto(User user) {
         return UserDto.builder()
