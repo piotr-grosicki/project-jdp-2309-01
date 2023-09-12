@@ -66,20 +66,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto updatedUserDto) {
-        User existingUser = userService.getUserById(id);
-        if (existingUser != null) {
-            User updatedUser = userMapper.mapToUser(updatedUserDto);
-            updatedUser.setId(id);
-            User savedUser = userService.saveUser(updatedUser);
-            UserDto savedUserDto = userMapper.mapToUserDto(savedUser);
-            return ResponseEntity.ok(savedUserDto);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
