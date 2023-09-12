@@ -31,7 +31,7 @@ public class CartController {
     public ResponseEntity<CartDto> createNewCart(@RequestParam Long userId) {
         
         log.info("Creating new CART for USER_ID={}...", userId);
-        User user = userService.findUserById(userId);
+        User user = userService.getUserById(userId);
         Cart newCart = cartService.createNewCart(user);
         CartDto cartDto = cartMapper.mapCartToCartDto(cartService.saveCart(newCart));
         return ResponseEntity.ok(cartDto);
