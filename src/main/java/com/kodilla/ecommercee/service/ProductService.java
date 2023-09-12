@@ -22,7 +22,7 @@ public class ProductService {
     }
 
     public Product getProductById(final Long id) {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     public Product saveProduct(final Product product) {

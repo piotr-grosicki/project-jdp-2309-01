@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.error;
 
+import com.kodilla.ecommercee.error.order.OrderNotFoundException;
 import com.kodilla.ecommercee.error.product.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

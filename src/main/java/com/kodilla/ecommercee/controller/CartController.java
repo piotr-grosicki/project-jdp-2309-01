@@ -6,6 +6,7 @@ import com.kodilla.ecommercee.domain.cart.Cart;
 import com.kodilla.ecommercee.domain.cart.CartProductsDto;
 import com.kodilla.ecommercee.dto.CartDto;
 import com.kodilla.ecommercee.dto.OrderDto;
+import com.kodilla.ecommercee.domain.cart.*;
 import com.kodilla.ecommercee.mapper.CartMapper;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.*;
@@ -66,7 +67,7 @@ public class CartController {
     public ResponseEntity<OrderDto> createOrderForCart(@PathVariable Long cartId) {
         
         log.info("Creating new ORDER for CART_ID={}...", cartId);
-        Order newOrder = orderService.createNewOrder(cartId);
-        return ResponseEntity.ok(orderMapper.mapOrderToOrderDto(newOrder));
+        Order newOrder = orderService.createOrder(cartId);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(newOrder));
     }
 }
