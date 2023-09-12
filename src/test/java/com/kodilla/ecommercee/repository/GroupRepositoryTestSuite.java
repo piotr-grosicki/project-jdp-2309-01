@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
-public class GroupRepositoryTestSuite {
+class GroupRepositoryTestSuite {
 
     @Autowired
     private GroupRepository groupRepository;
@@ -98,7 +98,7 @@ public class GroupRepositoryTestSuite {
     @Test
     void testReadAllGroups() {
         //when
-        List<Group> groups = (List<Group>) groupRepository.findAll();
+        List<Group> groups = groupRepository.findAll();
 
         //then
         assertTrue(!groups.isEmpty());

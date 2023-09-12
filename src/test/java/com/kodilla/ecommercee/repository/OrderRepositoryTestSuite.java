@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-public class OrderRepositoryTestSuite {
+class OrderRepositoryTestSuite {
 
     @Autowired
     private ProductRepository productRepository;
@@ -77,22 +77,16 @@ public class OrderRepositoryTestSuite {
 
     @Test
     void shouldFindAllOrders() {
-        List<Order> orders = (List<Order>) orderRepository.findAll();
+        List<Order> orders = orderRepository.findAll();
         assertNotNull(orders);
         assertEquals(1, orders.size());
-
-
     }
 
     @Test
     void shouldUpdate() {
-
         assertEquals("In progress", order.getStatus());
-
         order.setStatus("new update");
-
         assertEquals("new update", order.getStatus());
-
     }
 
 

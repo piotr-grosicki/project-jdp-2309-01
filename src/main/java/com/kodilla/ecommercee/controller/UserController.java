@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,13 +38,13 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> createUser( @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         User user = userMapper.mapToUser(userDto);
-       userService.saveUser(user);
+        userService.saveUser(user);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping()
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         List<UserDto> userDto = users.stream()
@@ -52,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto updatedUserDto) {
         User existingUser = userService.getUserById(id);
         if (existingUser != null) {
@@ -65,9 +66,11 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
 }

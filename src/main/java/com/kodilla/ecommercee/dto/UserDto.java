@@ -1,15 +1,12 @@
 package com.kodilla.ecommercee.dto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
+
 import java.time.LocalDate;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Builder
 public class UserDto {
     private Long id;
@@ -19,7 +16,5 @@ public class UserDto {
     private String generatedKey;
     private LocalDate expirationDate;
     private boolean isBlocked;
-
-
 
 }

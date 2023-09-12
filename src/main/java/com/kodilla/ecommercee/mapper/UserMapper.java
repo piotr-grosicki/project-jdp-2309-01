@@ -3,6 +3,7 @@ import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.dto.UserDto;
 import com.kodilla.ecommercee.service.UserService;
 import org.springframework.stereotype.Component;
+
 @Component
 public class UserMapper {
     private UserService userService;

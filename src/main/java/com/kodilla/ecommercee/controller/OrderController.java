@@ -25,8 +25,6 @@ public class OrderController {
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
-    private CartService cartService;
-    @Autowired
     private ProductMapper productMapper;
 
     @PostMapping("/{cartId}")
